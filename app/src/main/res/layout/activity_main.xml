@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0B0C10"
+    android:padding="24dp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="월급 해금"
+        android:textColor="#F4F5F7"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="24dp"
+        android:text="연봉을 입력하면 알림 잠금화면에서 이번 달 번 돈이 실시간으로 쌓여요"
+        android:textColor="#9AA0A6"
+        android:textSize="13sp"
+        android:gravity="center" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_salary"
+        app:boxStrokeColor="#8EF0C0"
+        app:hintTextColor="#8EF0C0">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editSalary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textColor="#F4F5F7"
+            android:text="6000" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/btn_start"
+        app:backgroundTint="#8EF0C0"
+        android:textColor="#05100A" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStop"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/btn_stop"
+        android:textColor="#F4F5F7"
+        app:strokeColor="#3A3D45" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text=""
+        android:textColor="#8EF0C0"
+        android:textSize="12sp" />
+
+</LinearLayout>
