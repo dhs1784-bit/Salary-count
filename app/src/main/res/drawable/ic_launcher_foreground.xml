@@ -4,13 +4,22 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    <!-- 코인 -->
     <path
         android:fillColor="#8EF0C0"
-        android:pathData="M54,54m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0" />
+        android:pathData="M54,56m-23,0a23,23 0,1 1,46 0a23,23 0,1 1,-46 0" />
+    <!-- 물음표 (해금 미스터리 아이템 모티프) -->
     <path
         android:fillColor="#05100A"
-        android:pathData="M50,44h8v6h-8zM50,74h8v6h-8z" />
+        android:pathData="M47,47c0,-5 4,-8 9,-8c5,0 9,3 9,8c0,5 -8,6 -8,12"
+        android:strokeColor="#05100A"
+        android:strokeWidth="6"
+        android:strokeLineCap="round" />
     <path
         android:fillColor="#05100A"
-        android:pathData="M46,50h16v4h-16zM44,58h20v4h-20zM46,66h16v4h-16z" />
+        android:pathData="M53,66m-3.4,0a3.4,3.4 0,1 1,6.8 0a3.4,3.4 0,1 1,-6.8 0" />
+    <!-- 해금 스파클 -->
+    <path
+        android:fillColor="#8EF0C0"
+        android:pathData="M83,24l3,7l7,3l-7,3l-3,7l-3,-7l-7,-3l7,-3z" />
 </vector>

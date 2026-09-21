@@ -11,6 +11,7 @@ object SalaryPrefs {
     private const val KEY_RUNNING = "running"
     private const val KEY_LAST_UNLOCKED = "last_unlocked_idx"
     private const val KEY_PRIVATE_MODE = "private_mode"
+    private const val KEY_ONBOARDED = "onboarded"
 
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -44,6 +45,13 @@ object SalaryPrefs {
 
     fun isPrivateMode(context: Context): Boolean =
         prefs(context).getBoolean(KEY_PRIVATE_MODE, true)
+
+    fun setOnboarded(context: Context) {
+        prefs(context).edit().putBoolean(KEY_ONBOARDED, true).apply()
+    }
+
+    fun hasOnboarded(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_ONBOARDED, false)
 
     fun setLastUnlockedIdx(context: Context, idx: Int) {
         prefs(context).edit().putInt(KEY_LAST_UNLOCKED, idx).apply()
