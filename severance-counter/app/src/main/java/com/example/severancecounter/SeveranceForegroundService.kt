@@ -132,7 +132,7 @@ class SeveranceForegroundService : Service() {
         val perSec = SeveranceCalculator.perSecondWon(annual)
         val tenureDays = SeveranceCalculator.tenureDays(hireDate, now)
         val years = SeveranceCalculator.tenureYears(hireDate, now)
-        val dday = SeveranceCalculator.daysUntilNextAnniversary(hireDate, now)
+        val dday = SeveranceCalculator.daysRemainingInYear(now)
         val hidden = SeverancePrefs.isPrivateMode(this)
 
         val idx = SeveranceTiers.currentIndex(earned)
@@ -141,7 +141,7 @@ class SeveranceForegroundService : Service() {
         val tenureLine = if (tenureDays < 365) {
             "입사 ${tenureDays}일째 · 1년 채우면 퇴직금 발생 시작"
         } else {
-            "근속 ${years}년차 · 다음 기념일까지 D-$dday"
+            "근속 ${years}년차 · 올해 D-$dday"
         }
 
         val amountText = if (hidden) "•••••• 원" else "${SeveranceCalculator.formatWon1(earnedExact)}원"

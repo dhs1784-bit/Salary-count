@@ -42,7 +42,7 @@ object SeveranceCalculator {
         return years.coerceAtLeast(0)
     }
 
-    /** 다음 근속 연차 기념일까지 남은 일수 (D-day) */
+    /** 다음 근속 연차 기념일까지 남은 일수 */
     fun daysUntilNextAnniversary(hireDateMillis: Long, nowMillis: Long): Int {
         val hire = Calendar.getInstance().apply { timeInMillis = hireDateMillis }
         val nextAnniv = Calendar.getInstance().apply {
@@ -55,6 +55,19 @@ object SeveranceCalculator {
             nextAnniv.add(Calendar.YEAR, 1)
         }
         val diffMs = nextAnniv.timeInMillis - nowMillis
+        return (diffMs / (1000L * 60 * 60 * 24)).toInt() + 1
+    }
+
+    /** 올해가 끝날 때까지 남은 일수 (12월 31일 기준) — 더 직관적인 D-day용 */
+    fun daysRemainingInYear(nowMillis: Long): Int {
+        val now = Calendar.getInstance().apply { timeInMillis = nowMillis }
+        val yearEnd = Calendar.getInstance().apply {
+            timeInMillis = nowMillis
+            set(Calendar.MONTH, Calendar.DECEMBER); set(Calendar.DAY_OF_MONTH, 31)
+            set(Calendar.HOUR_OF_DAY, 23); set(Calendar.MINUTE, 59); set(Calendar.SECOND, 59); set(Calendar.MILLISECOND, 0)
+        }
+        val diffMs = yearEnd.timeInMillis - now.timeInMillis
+        if (diffMs <= 0) return 0
         return (diffMs / (1000L * 60 * 60 * 24)).toInt() + 1
     }
 

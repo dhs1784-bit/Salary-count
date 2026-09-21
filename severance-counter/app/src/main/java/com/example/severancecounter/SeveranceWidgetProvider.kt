@@ -39,7 +39,7 @@ class SeveranceWidgetProvider : AppWidgetProvider() {
             val perSec = SeveranceCalculator.perSecondWon(annual)
             val tenureDays = SeveranceCalculator.tenureDays(hireDate, now)
             val years = SeveranceCalculator.tenureYears(hireDate, now)
-            val dday = SeveranceCalculator.daysUntilNextAnniversary(hireDate, now)
+            val dday = SeveranceCalculator.daysRemainingInYear(now)
 
             val hidden = SeverancePrefs.isPrivateMode(context)
             val idx = SeveranceTiers.currentIndex(earnedFloor)
