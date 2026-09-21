@@ -34,7 +34,7 @@ class SalaryForegroundService : Service() {
         const val ACTION_TOGGLE_PRIVACY = "com.example.salarycounter.action.TOGGLE_PRIVACY"
 
         // 1초마다 갱신. 배터리가 걱정되면 이 값을 3000~5000으로 늘리면 됨.
-        const val TICK_INTERVAL_MS = 1000L
+        const val TICK_INTERVAL_MS = 250L
     }
 
     override fun onCreate() {
