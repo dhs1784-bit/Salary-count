@@ -42,6 +42,23 @@
             android:text="6000" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/hint_payday"
+        app:boxStrokeColor="#8EF0C0"
+        app:hintTextColor="#8EF0C0">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editPayday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textColor="#F4F5F7"
+            android:text="25" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStart"
         android:layout_width="match_parent"

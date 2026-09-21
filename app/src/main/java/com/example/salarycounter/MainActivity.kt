@@ -26,10 +26,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.editSalary.setText(SalaryPrefs.getAnnualManwon(this).toString())
+        binding.editPayday.setText(SalaryPrefs.getPayday(this).toString())
 
         binding.btnStart.setOnClickListener {
             val manwon = binding.editSalary.text.toString().toIntOrNull() ?: 6000
+            val payday = (binding.editPayday.text.toString().toIntOrNull() ?: 25).coerceIn(1, 31)
             SalaryPrefs.setAnnualManwon(this, manwon)
+            SalaryPrefs.setPayday(this, payday)
             ensureNotificationPermissionThenStart()
         }
 

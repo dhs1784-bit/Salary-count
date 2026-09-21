@@ -6,7 +6,8 @@ import java.util.Calendar
 object SalaryPrefs {
     private const val PREFS_NAME = "salary_prefs"
     private const val KEY_ANNUAL_MANWON = "annual_manwon"
-    private const val KEY_MONTH_START = "month_start_millis"
+    private const val KEY_PAYDAY = "payday"
+    private const val KEY_PERIOD_START = "period_start_millis"
     private const val KEY_RUNNING = "running"
     private const val KEY_LAST_UNLOCKED = "last_unlocked_idx"
     private const val KEY_PRIVATE_MODE = "private_mode"
@@ -20,6 +21,15 @@ object SalaryPrefs {
 
     fun getAnnualManwon(context: Context): Int =
         prefs(context).getInt(KEY_ANNUAL_MANWON, 6000)
+
+    /** 월급날(1~31). 31 설정 시 짧은 달은 말일로 자동 보정됨. */
+    fun setPayday(context: Context, day: Int) {
+        val clamped = day.coerceIn(1, 31)
+        prefs(context).edit().putInt(KEY_PAYDAY, clamped).apply()
+    }
+
+    fun getPayday(context: Context): Int =
+        prefs(context).getInt(KEY_PAYDAY, 25)
 
     fun setRunning(context: Context, running: Boolean) {
         prefs(context).edit().putBoolean(KEY_RUNNING, running).apply()
@@ -42,24 +52,48 @@ object SalaryPrefs {
     fun getLastUnlockedIdx(context: Context): Int =
         prefs(context).getInt(KEY_LAST_UNLOCKED, -1)
 
-    /** 이번 달 1일 00:00을 기준 시각으로 반환. 달이 바뀌면 자동으로 리셋되고 해금 인덱스도 초기화. */
-    fun monthStartMillis(context: Context): Long {
-        val cal = Calendar.getInstance()
-        cal.set(Calendar.DAY_OF_MONTH, 1)
-        cal.set(Calendar.HOUR_OF_DAY, 0)
-        cal.set(Calendar.MINUTE, 0)
-        cal.set(Calendar.SECOND, 0)
-        cal.set(Calendar.MILLISECOND, 0)
-        val thisMonthStart = cal.timeInMillis
+    private fun clampDay(cal: Calendar, day: Int): Int =
+        minOf(day, cal.getActualMaximum(Calendar.DAY_OF_MONTH))
 
-        val saved = prefs(context).getLong(KEY_MONTH_START, -1)
-        if (saved != thisMonthStart) {
+    private fun paydayAt(base: Calendar, day: Int): Calendar {
+        val c = base.clone() as Calendar
+        c.set(Calendar.DAY_OF_MONTH, clampDay(c, day))
+        c.set(Calendar.HOUR_OF_DAY, 0)
+        c.set(Calendar.MINUTE, 0)
+        c.set(Calendar.SECOND, 0)
+        c.set(Calendar.MILLISECOND, 0)
+        return c
+    }
+
+    /** 이번 급여 주기의 시작 시각(가장 최근 월급날 00:00). 새 주기로 넘어가면 해금 인덱스도 자동 리셋. */
+    fun periodStartMillis(context: Context): Long {
+        val payday = getPayday(context)
+        val now = Calendar.getInstance()
+        val thisMonthPayday = paydayAt(now, payday)
+
+        val periodStart = if (now.timeInMillis >= thisMonthPayday.timeInMillis) {
+            thisMonthPayday
+        } else {
+            val prev = now.clone() as Calendar
+            prev.add(Calendar.MONTH, -1)
+            paydayAt(prev, payday)
+        }
+
+        val saved = prefs(context).getLong(KEY_PERIOD_START, -1)
+        if (saved != periodStart.timeInMillis) {
             prefs(context).edit()
-                .putLong(KEY_MONTH_START, thisMonthStart)
+                .putLong(KEY_PERIOD_START, periodStart.timeInMillis)
                 .putInt(KEY_LAST_UNLOCKED, -1)
                 .apply()
-            return thisMonthStart
         }
-        return saved
+        return periodStart.timeInMillis
+    }
+
+    /** 다음 월급날 00:00 (밀리초) */
+    fun nextPaydayMillis(context: Context): Long {
+        val payday = getPayday(context)
+        val start = Calendar.getInstance().apply { timeInMillis = periodStartMillis(context) }
+        start.add(Calendar.MONTH, 1)
+        return paydayAt(start, payday).timeInMillis
     }
 }

@@ -14,23 +14,37 @@ class SalaryWidgetProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        val annual = SalaryPrefs.getAnnualManwon(context)
-        val monthStart = SalaryPrefs.monthStartMillis(context)
-        val earned = SalaryCalculator.earnedThisMonth(annual, monthStart, System.currentTimeMillis())
+        val earned = currentEarned(context)
         updateAll(context, appWidgetManager, appWidgetIds, earned)
     }
 
     companion object {
+        private fun currentEarned(context: Context): Long {
+            val annual = SalaryPrefs.getAnnualManwon(context)
+            val periodStart = SalaryPrefs.periodStartMillis(context)
+            val periodEnd = SalaryPrefs.nextPaydayMillis(context)
+            return SalaryCalculator.earnedThisPeriod(annual, periodStart, periodEnd, System.currentTimeMillis())
+        }
+
         fun updateAll(
             context: Context,
             mgr: AppWidgetManager,
             ids: IntArray,
             earned: Long
         ) {
+            val annual = SalaryPrefs.getAnnualManwon(context)
+            val periodStart = SalaryPrefs.periodStartMillis(context)
+            val periodEnd = SalaryPrefs.nextPaydayMillis(context)
+            val now = System.currentTimeMillis()
+            val perSec = SalaryCalculator.perSecondWon(annual, periodStart, periodEnd)
+            val dday = SalaryCalculator.daysUntilNextPayday(periodEnd, now)
+
             val hidden = SalaryPrefs.isPrivateMode(context)
             val idx = SalaryTiers.currentIndex(earned)
 
             val amountText = if (hidden) "•••••• 원" else "${SalaryCalculator.formatWon(earned)}원"
+            val perSecText = if (hidden) "초당 ••원" else "초당 ${SalaryCalculator.formatWon(perSec)}원"
+            val ddayText = if (dday <= 0) "D-day 🎊" else "D-$dday"
 
             val (tierLine, nextLine) = if (hidden) {
                 "🔒 탭해서 확인" to ""
@@ -67,6 +81,8 @@ class SalaryWidgetProvider : AppWidgetProvider() {
             for (id in ids) {
                 val views = RemoteViews(context.packageName, R.layout.widget_salary)
                 views.setTextViewText(R.id.widget_amount, amountText)
+                views.setTextViewText(R.id.widget_persec, perSecText)
+                views.setTextViewText(R.id.widget_dday, ddayText)
                 views.setTextViewText(R.id.widget_tier, tierLine)
                 views.setTextViewText(R.id.widget_next, nextLine)
                 views.setOnClickPendingIntent(R.id.widget_root, toggleIntent)

@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.appwidget.AppWidgetManager
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Handler
@@ -15,7 +14,7 @@ import android.os.Looper
 import androidx.core.app.NotificationCompat
 
 /**
- * 잠금화면 알림(상시표시 알림) 형태로 "이번 달 번 돈"과 해금 진행 상황을 보여주는 서비스.
+ * 잠금화면 알림(상시표시 알림) 형태로 "이번 급여 주기에 번 돈"과 해금 진행 상황을 보여주는 서비스.
  * 안드로이드는 iOS와 달리 잠금화면 전용 위젯이 없어서, 알림이 잠금화면에 노출되는
  * 방식(설정 > 알림 > 잠금화면에 모든 알림 내용 표시)을 이용한다.
  */
@@ -34,7 +33,7 @@ class SalaryForegroundService : Service() {
         const val ACTION_STOP = "com.example.salarycounter.action.STOP"
         const val ACTION_TOGGLE_PRIVACY = "com.example.salarycounter.action.TOGGLE_PRIVACY"
 
-        // 데모와 동일하게 1초마다 갱신. 배터리가 걱정되면 이 값을 3000~5000으로 늘리면 됨.
+        // 1초마다 갱신. 배터리가 걱정되면 이 값을 3000~5000으로 늘리면 됨.
         const val TICK_INTERVAL_MS = 1000L
     }
 
@@ -54,7 +53,7 @@ class SalaryForegroundService : Service() {
             }
             ACTION_TOGGLE_PRIVACY -> {
                 SalaryPrefs.setPrivateMode(this, !SalaryPrefs.isPrivateMode(this))
-                tickOnce() // 즉시 갱신해서 가림/보임을 바로 반영
+                tickOnce()
                 return START_STICKY
             }
         }
@@ -90,11 +89,8 @@ class SalaryForegroundService : Service() {
     }
 
     private fun tickOnce() {
-        val annual = SalaryPrefs.getAnnualManwon(this)
-        val monthStart = SalaryPrefs.monthStartMillis(this)
-        val earned = SalaryCalculator.earnedThisMonth(annual, monthStart, System.currentTimeMillis())
+        val earned = currentEarned()
 
-        // 새로 해금된 티어가 있으면 축하 알림 한 번 띄우기
         val idx = SalaryTiers.currentIndex(earned)
         val lastIdx = SalaryPrefs.getLastUnlockedIdx(this)
         if (idx > lastIdx) {
@@ -106,6 +102,13 @@ class SalaryForegroundService : Service() {
         notifManager.notify(NOTIF_ID_ONGOING, buildOngoingNotification())
 
         updateWidgets(earned)
+    }
+
+    private fun currentEarned(): Long {
+        val annual = SalaryPrefs.getAnnualManwon(this)
+        val periodStart = SalaryPrefs.periodStartMillis(this)
+        val periodEnd = SalaryPrefs.nextPaydayMillis(this)
+        return SalaryCalculator.earnedThisPeriod(annual, periodStart, periodEnd, System.currentTimeMillis())
     }
 
     private fun updateWidgets(earned: Long) {
@@ -120,12 +123,18 @@ class SalaryForegroundService : Service() {
 
     private fun buildOngoingNotification(): Notification {
         val annual = SalaryPrefs.getAnnualManwon(this)
-        val monthStart = SalaryPrefs.monthStartMillis(this)
-        val earned = SalaryCalculator.earnedThisMonth(annual, monthStart, System.currentTimeMillis())
+        val periodStart = SalaryPrefs.periodStartMillis(this)
+        val periodEnd = SalaryPrefs.nextPaydayMillis(this)
+        val now = System.currentTimeMillis()
+        val earned = SalaryCalculator.earnedThisPeriod(annual, periodStart, periodEnd, now)
+        val perSec = SalaryCalculator.perSecondWon(annual, periodStart, periodEnd)
+        val dday = SalaryCalculator.daysUntilNextPayday(periodEnd, now)
         val hidden = SalaryPrefs.isPrivateMode(this)
 
         val idx = SalaryTiers.currentIndex(earned)
         val (tierLine, nextLine) = tierText(idx, earned)
+        val perSecLine = "초당 ${SalaryCalculator.formatWon(perSec)}원"
+        val ddayLine = if (dday <= 0) "오늘 월급날! 🎊" else "월급날까지 D-$dday"
 
         val amountText = if (hidden) "•••••• 원" else "${SalaryCalculator.formatWon(earned)}원"
 
@@ -148,20 +157,20 @@ class SalaryForegroundService : Service() {
         )
 
         val bigText = if (hidden) {
-            "탭해서 확인하기 🔒"
+            "탭해서 확인하기 🔒\n$ddayLine"
         } else {
-            "$tierLine\n$nextLine"
+            "$tierLine\n$nextLine\n$perSecLine · $ddayLine"
         }
 
         return NotificationCompat.Builder(this, CHANNEL_ONGOING)
             .setSmallIcon(android.R.drawable.ic_menu_myplaces)
-            .setContentTitle("이번 달 번 돈  $amountText")
-            .setContentText(if (hidden) "탭해서 확인" else tierLine)
+            .setContentTitle("이번 급여 주기에 번 돈  $amountText")
+            .setContentText(if (hidden) "탭해서 확인" else "$tierLine · $ddayLine")
             .setStyle(NotificationCompat.BigTextStyle().bigText(bigText))
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE) // 잠금화면에서 기본적으로 내용 가림(기기 설정에 따름)
+            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setContentIntent(openAppIntent)
             .addAction(0, if (hidden) "보기" else "가리기", toggleIntent)
             .addAction(0, "중지", stopIntent)
