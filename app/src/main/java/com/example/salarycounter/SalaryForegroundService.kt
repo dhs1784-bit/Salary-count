@@ -135,6 +135,9 @@ class SalaryForegroundService : Service() {
         val (tierLine, nextLine) = tierText(idx, earned)
         val perSecLine = "초당 ${SalaryCalculator.formatWon(perSec)}원"
         val ddayLine = if (dday <= 0) "오늘 월급날! 🎊" else "월급날까지 D-$dday"
+        val ytd = SalaryCalculator.earnedYearToDate(annual, now)
+        val ytdPercent = SalaryCalculator.yearProgressPercent(annual, now)
+        val ytdLine = "올해 누적 ${SalaryCalculator.formatWon(ytd)}원 · 연봉 대비 ${"%.1f".format(ytdPercent)}%"
 
         val amountText = if (hidden) "•••••• 원" else "${SalaryCalculator.formatWon(earned)}원"
 
@@ -159,7 +162,7 @@ class SalaryForegroundService : Service() {
         val bigText = if (hidden) {
             "탭해서 확인하기 🔒\n$ddayLine"
         } else {
-            "$tierLine\n$nextLine\n$perSecLine · $ddayLine"
+            "$tierLine\n$nextLine\n$perSecLine · $ddayLine\n$ytdLine"
         }
 
         return NotificationCompat.Builder(this, CHANNEL_ONGOING)

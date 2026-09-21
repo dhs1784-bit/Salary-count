@@ -1,6 +1,7 @@
 package com.example.salarycounter
 
 import kotlin.math.ceil
+import java.util.Calendar
 
 object SalaryCalculator {
 
@@ -28,6 +29,28 @@ object SalaryCalculator {
         val diff = nextPaydayMillis - nowMillis
         if (diff <= 0) return 0
         return ceil(diff / (24.0 * 60 * 60 * 1000)).toInt()
+    }
+
+    /** 1월 1일 00:00부터 지금까지, 연봉을 초 단위로 균등 배분했을 때의 누적액 (매달 리셋되는 "이번 달 번 돈"과 별개) */
+    fun earnedYearToDate(annualManwon: Int, nowMillis: Long): Double {
+        val cal = Calendar.getInstance().apply { timeInMillis = nowMillis }
+        val yearStart = Calendar.getInstance().apply {
+            timeInMillis = nowMillis
+            set(Calendar.MONTH, 0); set(Calendar.DAY_OF_MONTH, 1)
+            set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0); set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0)
+        }
+        val yearEnd = (yearStart.clone() as Calendar).apply { add(Calendar.YEAR, 1) }
+        val secondsInYear = (yearEnd.timeInMillis - yearStart.timeInMillis) / 1000.0
+        val secondsElapsed = ((nowMillis - yearStart.timeInMillis) / 1000.0).coerceIn(0.0, secondsInYear)
+        val annualWon = annualManwon.toDouble() * 10_000
+        return annualWon * (secondsElapsed / secondsInYear)
+    }
+
+    fun yearProgressPercent(annualManwon: Int, nowMillis: Long): Double {
+        val ytd = earnedYearToDate(annualManwon, nowMillis)
+        val annualWon = annualManwon.toDouble() * 10_000
+        if (annualWon <= 0) return 0.0
+        return (ytd / annualWon * 100.0).coerceIn(0.0, 100.0)
     }
 
     fun formatWon(amount: Long): String = "%,d".format(amount)
