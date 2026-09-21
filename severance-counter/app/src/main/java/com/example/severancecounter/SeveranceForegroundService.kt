@@ -32,7 +32,7 @@ class SeveranceForegroundService : Service() {
         const val ACTION_STOP = "com.example.severancecounter.action.STOP"
         const val ACTION_TOGGLE_PRIVACY = "com.example.severancecounter.action.TOGGLE_PRIVACY"
 
-        const val TICK_INTERVAL_MS = 1000L
+        const val TICK_INTERVAL_MS = 250L
     }
 
     override fun onCreate() {
@@ -127,7 +127,8 @@ class SeveranceForegroundService : Service() {
         val annual = SeverancePrefs.getAnnualManwon(this)
         val hireDate = SeverancePrefs.getHireDateMillis(this)
         val now = System.currentTimeMillis()
-        val earned = SeveranceCalculator.earnedSeverance(annual, hireDate, now)
+        val earnedExact = SeveranceCalculator.earnedSeveranceExact(annual, hireDate, now)
+        val earned = earnedExact.toLong()
         val perSec = SeveranceCalculator.perSecondWon(annual)
         val tenureDays = SeveranceCalculator.tenureDays(hireDate, now)
         val years = SeveranceCalculator.tenureYears(hireDate, now)
@@ -136,14 +137,14 @@ class SeveranceForegroundService : Service() {
 
         val idx = SeveranceTiers.currentIndex(earned)
         val (tierLine, nextLine) = tierText(idx, earned)
-        val perSecLine = "초당 ${SeveranceCalculator.formatWon(perSec)}원"
+        val perSecLine = "초당 ${SeveranceCalculator.formatWon1(perSec)}원"
         val tenureLine = if (tenureDays < 365) {
             "입사 ${tenureDays}일째 · 1년 채우면 퇴직금 발생 시작"
         } else {
             "근속 ${years}년차 · 다음 기념일까지 D-$dday"
         }
 
-        val amountText = if (hidden) "•••••• 원" else "${SeveranceCalculator.formatWon(earned)}원"
+        val amountText = if (hidden) "•••••• 원" else "${SeveranceCalculator.formatWon1(earnedExact)}원"
 
         val openAppIntent = PendingIntent.getActivity(
             this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE

@@ -24,6 +24,7 @@ class SeveranceWidgetProvider : AppWidgetProvider() {
             return SeveranceCalculator.earnedSeverance(annual, hireDate, System.currentTimeMillis())
         }
 
+        /** earned 파라미터는 호환용(해금 트리거용 정수 스냅샷); 화면 표시는 소수점까지 다시 계산해서 씀 */
         fun updateAll(
             context: Context,
             mgr: AppWidgetManager,
@@ -33,16 +34,18 @@ class SeveranceWidgetProvider : AppWidgetProvider() {
             val annual = SeverancePrefs.getAnnualManwon(context)
             val hireDate = SeverancePrefs.getHireDateMillis(context)
             val now = System.currentTimeMillis()
+            val earnedExact = SeveranceCalculator.earnedSeveranceExact(annual, hireDate, now)
+            val earnedFloor = earnedExact.toLong()
             val perSec = SeveranceCalculator.perSecondWon(annual)
             val tenureDays = SeveranceCalculator.tenureDays(hireDate, now)
             val years = SeveranceCalculator.tenureYears(hireDate, now)
             val dday = SeveranceCalculator.daysUntilNextAnniversary(hireDate, now)
 
             val hidden = SeverancePrefs.isPrivateMode(context)
-            val idx = SeveranceTiers.currentIndex(earned)
+            val idx = SeveranceTiers.currentIndex(earnedFloor)
 
-            val amountText = if (hidden) "•••••• 원" else "${SeveranceCalculator.formatWon(earned)}원"
-            val perSecText = if (hidden) "· 초당 ••원" else "· 초당 ${SeveranceCalculator.formatWon(perSec)}원"
+            val amountText = if (hidden) "•••••• 원" else "${SeveranceCalculator.formatWon1(earnedExact)}원"
+            val perSecText = if (hidden) "· 초당 ••원" else "· 초당 ${SeveranceCalculator.formatWon1(perSec)}원"
             val ddayText = if (tenureDays < 365) "1년까지 D-${365 - tenureDays}" else "D-$dday"
             val labelText = if (tenureDays < 365) "퇴직금 발생까지" else "근속 ${years}년차"
 
@@ -50,7 +53,7 @@ class SeveranceWidgetProvider : AppWidgetProvider() {
                 "🔒 탭해서 확인" to ""
             } else if (idx == -1) {
                 val first = SeveranceTiers.items.first()
-                val remain = (first.price - earned).coerceAtLeast(0)
+                val remain = (first.price - earnedFloor).coerceAtLeast(0)
                 if (tenureDays < 365) {
                     "🔒 아직 퇴직금 발생 전" to "1년 채우면 적립 시작"
                 } else {
@@ -61,7 +64,7 @@ class SeveranceWidgetProvider : AppWidgetProvider() {
                 val next = SeveranceTiers.items.getOrNull(idx + 1)
                 val line1 = "${cur.emoji} ${cur.name}"
                 val line2 = if (next != null) {
-                    val remain = (next.price - earned).coerceAtLeast(0)
+                    val remain = (next.price - earnedFloor).coerceAtLeast(0)
                     "❔ 다음까지 ${SeveranceCalculator.formatWon(remain)}원"
                 } else {
                     "🏁 모든 단계 달성"

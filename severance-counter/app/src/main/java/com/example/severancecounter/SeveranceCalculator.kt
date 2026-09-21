@@ -17,11 +17,15 @@ object SeveranceCalculator {
     }
 
     /** 입사일부터 지금까지 쌓인 추정 퇴직금(원, 내림). 1년 미만이면 법적으로 발생하지 않으므로 0. */
-    fun earnedSeverance(annualManwon: Int, hireDateMillis: Long, nowMillis: Long): Long {
+    fun earnedSeverance(annualManwon: Int, hireDateMillis: Long, nowMillis: Long): Long =
+        floor(earnedSeveranceExact(annualManwon, hireDateMillis, nowMillis)).toLong()
+
+    /** 소수점까지 포함한 정확한 누적액 — 위젯/알림에 소수점 표시용 */
+    fun earnedSeveranceExact(annualManwon: Int, hireDateMillis: Long, nowMillis: Long): Double {
         val tenureDays = tenureDays(hireDateMillis, nowMillis)
-        if (tenureDays < 365) return 0
-        val elapsedSec = ((nowMillis - hireDateMillis) / 1000L).coerceAtLeast(0)
-        return floor(perSecondWon(annualManwon) * elapsedSec).toLong()
+        if (tenureDays < 365) return 0.0
+        val elapsedSec = ((nowMillis - hireDateMillis) / 1000.0).coerceAtLeast(0.0)
+        return perSecondWon(annualManwon) * elapsedSec
     }
 
     fun tenureDays(hireDateMillis: Long, nowMillis: Long): Long =
@@ -56,4 +60,5 @@ object SeveranceCalculator {
 
     fun formatWon(amount: Long): String = "%,d".format(amount)
     fun formatWon(amount: Double): String = "%,d".format(amount.toLong())
+    fun formatWon1(amount: Double): String = "%,.1f".format(amount)
 }
