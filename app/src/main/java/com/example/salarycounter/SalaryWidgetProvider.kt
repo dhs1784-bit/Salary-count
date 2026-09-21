@@ -46,8 +46,11 @@ class SalaryWidgetProvider : AppWidgetProvider() {
             val perSecText = if (hidden) "· 초당 ••원" else "· 초당 ${SalaryCalculator.formatWon(perSec)}원"
             val ddayText = if (dday <= 0) "D-day 🎊" else "D-$dday"
 
+            val ytd = SalaryCalculator.earnedYearToDate(annual, now)
             val ytdPercent = SalaryCalculator.yearProgressPercent(annual, now)
-            val labelText = if (hidden) "이번 급여 주기" else "연봉 대비 ${"%.1f".format(ytdPercent)}%"
+            val ytdManwon = (ytd / 10_000).toLong()
+            val labelText = if (hidden) "이번 급여 주기" else
+                "올해 ${SalaryCalculator.formatWon(ytdManwon)}만원 · ${"%.0f".format(ytdPercent)}%"
 
             val (tierLine, nextLine) = if (hidden) {
                 "🔒 탭해서 확인" to ""
