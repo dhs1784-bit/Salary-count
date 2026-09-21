@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">퇴직금 카운터</string>
+    <string name="hint_salary">연봉(만원)</string>
+    <string name="hint_hiredate">입사일</string>
+    <string name="btn_start">카운팅 시작</string>
+    <string name="btn_stop">중지</string>
+    <string name="notif_channel_name">추정 퇴직금</string>
+    <string name="widget_privacy_toggle">가리기/보기</string>
+</resources>

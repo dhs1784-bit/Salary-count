@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.SeveranceCounter" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#7EC8E3</item>
+        <item name="colorPrimaryDark">#05060A</item>
+        <item name="colorAccent">#7EC8E3</item>
+        <item name="android:windowBackground">#0B0C10</item>
+    </style>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 코인 -->
+    <path
+        android:fillColor="#7EC8E3"
+        android:pathData="M54,56m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0" />
+    <!-- 원화 기호(₩) : W 지그재그 -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#052436"
+        android:strokeWidth="6.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M37,42 L44,72 L54,52 L64,72 L71,42" />
+    <!-- 원화 기호 가로줄 2개 -->
+    <path android:fillColor="#052436" android:pathData="M33,50h42v4.5h-42z" />
+    <path android:fillColor="#052436" android:pathData="M35,59h38v4.5h-38z" />
+    <!-- 안전망(방패) 포인트 -->
+    <path
+        android:fillColor="#7EC8E3"
+        android:pathData="M85,18 L94,22 L94,32 C94,40 90,45 85,48 C80,45 76,40 76,32 L76,22 Z" />
+    <path
+        android:fillColor="#052436"
+        android:pathData="M81,32 L84,36 L90,27"
+        android:strokeColor="#052436"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

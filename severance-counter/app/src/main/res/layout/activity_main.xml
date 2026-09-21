@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0B0C10"
+    android:padding="24dp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="퇴직금 실시간 카운터"
+        android:textColor="#F4F5F7"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="24dp"
+        android:text="연봉과 입사일을 입력하면 추정 퇴직금이 잠금화면에서 실시간으로 쌓여요"
+        android:textColor="#9AA0A6"
+        android:textSize="13sp"
+        android:gravity="center" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_salary"
+        app:boxStrokeColor="#7EC8E3"
+        app:hintTextColor="#7EC8E3">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editSeverance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textColor="#F4F5F7"
+            android:text="6000" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/hint_hiredate"
+        app:boxStrokeColor="#7EC8E3"
+        app:hintTextColor="#7EC8E3">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editHireDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="true"
+            android:cursorVisible="false"
+            android:textColor="#F4F5F7" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/btn_start"
+        app:backgroundTint="#7EC8E3"
+        android:textColor="#052436" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStop"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/btn_stop"
+        android:textColor="#F4F5F7"
+        app:strokeColor="#3A3D45" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text=""
+        android:textColor="#7EC8E3"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="추정치입니다. 정확한 법정 퇴직금은 고용노동부 계산기를 확인하세요. 근속 1년 미만은 법적으로 퇴직금이 발생하지 않습니다."
+        android:textColor="#6B6F76"
+        android:textSize="10.5sp"
+        android:gravity="center" />
+
+</LinearLayout>
