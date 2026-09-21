@@ -81,15 +81,4 @@
         android:maxLines="1"
         android:ellipsize="end" />
 
-    <TextView
-        android:id="@+id/widget_ytd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="연봉 대비 0%"
-        android:textColor="#6B6F76"
-        android:textSize="8.5sp"
-        android:maxLines="1"
-        android:ellipsize="end" />
-
 </LinearLayout>

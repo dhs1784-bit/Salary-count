@@ -46,10 +46,8 @@ class SalaryWidgetProvider : AppWidgetProvider() {
             val perSecText = if (hidden) "· 초당 ••원" else "· 초당 ${SalaryCalculator.formatWon(perSec)}원"
             val ddayText = if (dday <= 0) "D-day 🎊" else "D-$dday"
 
-            val ytd = SalaryCalculator.earnedYearToDate(annual, now)
             val ytdPercent = SalaryCalculator.yearProgressPercent(annual, now)
-            val ytdText = if (hidden) "" else
-                "올해 누적 ${SalaryCalculator.formatWon(ytd)}원 · 연봉 대비 ${"%.1f".format(ytdPercent)}%"
+            val labelText = if (hidden) "이번 급여 주기" else "연봉 대비 ${"%.1f".format(ytdPercent)}%"
 
             val (tierLine, nextLine) = if (hidden) {
                 "🔒 탭해서 확인" to ""
@@ -85,12 +83,12 @@ class SalaryWidgetProvider : AppWidgetProvider() {
 
             for (id in ids) {
                 val views = RemoteViews(context.packageName, R.layout.widget_salary)
+                views.setTextViewText(R.id.widget_label, labelText)
                 views.setTextViewText(R.id.widget_amount, amountText)
                 views.setTextViewText(R.id.widget_persec, perSecText)
                 views.setTextViewText(R.id.widget_dday, ddayText)
                 views.setTextViewText(R.id.widget_tier, tierLine)
                 views.setTextViewText(R.id.widget_next, nextLine)
-                views.setTextViewText(R.id.widget_ytd, ytdText)
                 views.setOnClickPendingIntent(R.id.widget_root, toggleIntent)
                 views.setOnClickPendingIntent(R.id.widget_amount, openAppIntent)
                 mgr.updateAppWidget(id, views)
