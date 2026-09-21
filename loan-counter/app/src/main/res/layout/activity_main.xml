@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0B0C10">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="대출 갚기 카운터"
+        android:textColor="#F4F5F7"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="24dp"
+        android:text="대출 정보를 입력하면 잔액이 실시간으로 줄어드는 걸 볼 수 있어요"
+        android:textColor="#9AA0A6"
+        android:textSize="13sp"
+        android:gravity="center" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="대출 원금(만원)"
+        app:boxStrokeColor="#F2A65A"
+        app:hintTextColor="#F2A65A">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textColor="#F4F5F7"
+            android:text="3000" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="연이자율(%)"
+        app:boxStrokeColor="#F2A65A"
+        app:hintTextColor="#F2A65A">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textColor="#F4F5F7"
+            android:text="4.5" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="상환 기간(개월)"
+        app:boxStrokeColor="#F2A65A"
+        app:hintTextColor="#F2A65A">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTerm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textColor="#F4F5F7"
+            android:text="60" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="대출 시작일(첫 상환일 기준)"
+        app:boxStrokeColor="#F2A65A"
+        app:hintTextColor="#F2A65A">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="true"
+            android:cursorVisible="false"
+            android:textColor="#F4F5F7" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="카운팅 시작"
+        app:backgroundTint="#F2A65A"
+        android:textColor="#331700" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStop"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="중지"
+        android:textColor="#F4F5F7"
+        app:strokeColor="#3A3D45" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text=""
+        android:textColor="#F2A65A"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="원리금균등상환 기준 추정치입니다. 실제 상환 스케줄은 은행 앱에서 확인하세요."
+        android:textColor="#6B6F76"
+        android:textSize="10.5sp"
+        android:gravity="center" />
+
+</LinearLayout>
+</ScrollView>

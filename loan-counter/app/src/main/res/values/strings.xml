@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">대출 갚기 카운터</string>
+    <string name="notif_channel_name">대출 잔액</string>
+    <string name="widget_privacy_toggle">가리기/보기</string>
+</resources>

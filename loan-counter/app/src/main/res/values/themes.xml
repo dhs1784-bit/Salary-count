@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.LoanCounter" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#F2A65A</item>
+        <item name="colorPrimaryDark">#05060A</item>
+        <item name="colorAccent">#F2A65A</item>
+        <item name="android:windowBackground">#0B0C10</item>
+    </style>
+</resources>
