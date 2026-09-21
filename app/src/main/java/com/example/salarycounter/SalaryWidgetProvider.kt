@@ -43,7 +43,7 @@ class SalaryWidgetProvider : AppWidgetProvider() {
             val idx = SalaryTiers.currentIndex(earned)
 
             val amountText = if (hidden) "•••••• 원" else "${SalaryCalculator.formatWon(earned)}원"
-            val perSecText = if (hidden) "초당 ••원" else "초당 ${SalaryCalculator.formatWon(perSec)}원"
+            val perSecText = if (hidden) "· 초당 ••원" else "· 초당 ${SalaryCalculator.formatWon(perSec)}원"
             val ddayText = if (dday <= 0) "D-day 🎊" else "D-$dday"
 
             val (tierLine, nextLine) = if (hidden) {
