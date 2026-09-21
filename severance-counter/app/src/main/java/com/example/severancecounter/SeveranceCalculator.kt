@@ -7,13 +7,13 @@ object SeveranceCalculator {
 
     /**
      * 법정 퇴직금 간이 계산: 퇴직금 = 1일평균임금 x 30일 x (재직일수/365)
-     * 평균임금은 연봉/12로 근사(실제로는 최근 3개월 실지급액 기준이라 상여금 등에 따라 달라질 수 있음).
-     * => 초당 적립액 = (연봉/12 x 30/365) / 86400
+     * 평균임금(월급/30) x 30일 = 월급 이므로 결국 "퇴직금 ≈ 월급 x 근속연수"로 정리됨
+     * (실제로는 최근 3개월 실지급액 기준이라 상여금 등에 따라 달라질 수 있는 근사치).
+     * => 초당 적립액 = 월급 / 365 / 86400
      */
     fun perSecondWon(annualManwon: Int): Double {
         val monthlyWon = annualManwon.toDouble() * 10_000 / 12.0
-        val dailyAvgWage = monthlyWon * 30.0 / 365.0
-        return dailyAvgWage / 86_400.0
+        return monthlyWon / 365.0 / 86_400.0
     }
 
     /** 입사일부터 지금까지 쌓인 추정 퇴직금(원, 내림). 1년 미만이면 법적으로 발생하지 않으므로 0. */
