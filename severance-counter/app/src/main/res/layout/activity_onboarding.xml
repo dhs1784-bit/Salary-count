@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="퇴직금 실시간 카운터"
+        android:text="째깍퇴직금"
         android:textColor="#F4F5F7"
         android:textSize="26sp"
         android:textStyle="bold" />

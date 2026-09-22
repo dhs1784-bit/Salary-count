@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="대출 갚기 실시간 카운터"
+        android:text="째깍상환"
         android:textColor="#F4F5F7"
         android:textSize="26sp"
         android:textStyle="bold" />

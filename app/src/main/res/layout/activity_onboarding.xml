@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="월급 해금"
+        android:text="째깍월급"
         android:textColor="#F4F5F7"
         android:textSize="26sp"
         android:textStyle="bold" />

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">월급 해금</string>
+    <string name="app_name">째깍월급</string>
     <string name="hint_salary">연봉(만원)</string>
     <string name="hint_payday">월급날(1~31일)</string>
     <string name="btn_start">카운팅 시작</string>
