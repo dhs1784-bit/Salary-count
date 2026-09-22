@@ -1,8 +1,0 @@
-<resources>
-    <style name="Theme.SalaryCounter" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">#8EF0C0</item>
-        <item name="colorPrimaryDark">#05060A</item>
-        <item name="colorAccent">#8EF0C0</item>
-        <item name="android:windowBackground">#0B0C10</item>
-    </style>
-</resources>

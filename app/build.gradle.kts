@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.salarycounter"
+    namespace = "com.dhs1784bit.salarycounter"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.salarycounter"
+        applicationId = "com.dhs1784bit.salarycounter"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
