@@ -1,4 +1,4 @@
-package com.example.salarycounter
+package com.dhs1784bit.salarycounter
 
 data class Tier(val emoji: String, val name: String, val price: Long)
 

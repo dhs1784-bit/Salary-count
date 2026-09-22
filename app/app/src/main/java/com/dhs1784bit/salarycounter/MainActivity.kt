@@ -1,4 +1,4 @@
-package com.example.salarycounter
+package com.dhs1784bit.salarycounter
 
 import android.Manifest
 import android.content.Intent
@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.salarycounter.databinding.ActivityMainBinding
+import com.dhs1784bit.salarycounter.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

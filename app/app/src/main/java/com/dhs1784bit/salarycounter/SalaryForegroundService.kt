@@ -1,4 +1,4 @@
-package com.example.salarycounter
+package com.dhs1784bit.salarycounter
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -29,9 +29,9 @@ class SalaryForegroundService : Service() {
         const val NOTIF_ID_ONGOING = 1001
         const val NOTIF_ID_UNLOCK = 1002
 
-        const val ACTION_START = "com.example.salarycounter.action.START"
-        const val ACTION_STOP = "com.example.salarycounter.action.STOP"
-        const val ACTION_TOGGLE_PRIVACY = "com.example.salarycounter.action.TOGGLE_PRIVACY"
+        const val ACTION_START = "com.dhs1784bit.salarycounter.action.START"
+        const val ACTION_STOP = "com.dhs1784bit.salarycounter.action.STOP"
+        const val ACTION_TOGGLE_PRIVACY = "com.dhs1784bit.salarycounter.action.TOGGLE_PRIVACY"
 
         // 0.25초마다 갱신. 배터리가 걱정되면 이 값을 3000~5000으로 늘리면 됨.
         const val TICK_INTERVAL_MS = 250L

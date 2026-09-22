@@ -1,4 +1,4 @@
-package com.example.salarycounter
+package com.dhs1784bit.salarycounter
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager

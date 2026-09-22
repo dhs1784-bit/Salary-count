@@ -1,9 +1,9 @@
-package com.example.salarycounter
+package com.dhs1784bit.salarycounter
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.salarycounter.databinding.ActivityOnboardingBinding
+import com.dhs1784bit.salarycounter.databinding.ActivityOnboardingBinding
 
 class OnboardingActivity : AppCompatActivity() {
 
